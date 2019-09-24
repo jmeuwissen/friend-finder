@@ -1,5 +1,7 @@
 const FriendList = function () {
     this.friends = [];
+
+    //returns the best friend for the added friend
     this.addFriend = function (name, photo, scores) {
 
         //disgusting big O. could insert using quicksort on the scores property of friend

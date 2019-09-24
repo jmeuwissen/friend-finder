@@ -2,11 +2,25 @@ const FriendsList = require("../data/friends");
 
 const friendsList = new FriendsList();
 
-friendsList.addFriend('jeff', 'link', [
-    3,
-    4,
-    5
-])
+module.exports = function (app) {
+    app.get("/api/friends", function (req, res) {
+        res.json(
+            JSON.stringify(friendsList)
+        )
+
+    })
 
 
-console.log(JSON.stringify(friendsList))
+
+    app.post("/api/friends", function (req, res) {
+        res.json(
+            JSON.stringify(
+                friendsList.addFriend(
+                    req.body.name,
+                    req.body.photo,
+                    req.body.scores
+                )
+            )
+        )
+    })
+}
