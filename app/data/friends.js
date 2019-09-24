@@ -1,30 +1,35 @@
 const FriendList = function () {
     this.friends = [];
     this.addFriend = function (name, photo, scores) {
+
+        //disgusting big O. could insert using quicksort on the scores property of friend
+        //but thinking about the implementation of that right now makes my brain hurt
         const newFriend = new Friend(name, photo, scores)
-        this.friends.add(newFriend);
+        let bestDiff = 0;
+        let bestFriend = {};
+        this.friends.forEach(function (friend, i) {
+            let diff = 0;
+            friend.scores.forEach(function (score, i) {
+                diff += Math.abs(score - newFriend.scores[i]);
+            })
+            if (i === 0 || diff < bestDiff) {
+                bestDiff = diff;
+                bestFriend = friend;
+            }
+        });
+        this.friends.push(newFriend);
+
+        return bestFriend;
 
     }
-    function checkCompatibility(scores) {
-        
-    }
-
-
 }
 
 const Friend = function (name, photo, scores) {
     this.name = name;
     this.photo = photo;
     this.scores = scores;
-    this.total = addScores(this.scores);
-
-
-    function addScores(scoreArr) {
-        let total = 0;
-        scoreArr.forEach(score => {
-            total += score;
-        });
-        return total;
-    }
 }
 
+
+
+module.exports = FriendList;
