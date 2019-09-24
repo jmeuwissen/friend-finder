@@ -4,8 +4,6 @@ const FriendList = function () {
     //returns the best friend for the added friend
     this.addFriend = function (name, photo, scores) {
 
-        //disgusting big O. could insert using quicksort on the scores property of friend
-        //but thinking about the implementation of that right now makes my brain hurt
         const newFriend = new Friend(name, photo, scores)
         let bestDiff = 0;
         let bestFriend = {};
