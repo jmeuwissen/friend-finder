@@ -176,7 +176,7 @@
         <footer class="footer">
             <div class="container">
                 <p><a href="/api/friends">API Friends List</a> | <a
-                        href="https://github.com/afhaque/friendfinder">GitHub Repo</a></p>
+                        href="https://github.com/jmeuwissen/friend-finder">GitHub Repo</a></p>
             </div>
         </footer>
 
@@ -195,7 +195,7 @@
                 <div class="modal-body">
                     <h2 id="match-name"></h2>
                     <img id="match-img"
-                        src="https://media.licdn.com/mpr/mpr/shrinknp_400_400/p/6/005/064/1bd/3435aa3.jpg" alt="">
+                        src="" alt="">
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -206,7 +206,66 @@
     </div>
 
 
+    <script>
+        document.getElementById("submit").addEventListener("click", event => {
+            event.preventDefault();
+            const unanswered = [];
+            const scores = [];
+            const name = document.getElementById("name").value;
+            const photo = document.getElementById("photo").value;
 
+            let postValues = true;
+            for (let i = 1; i < 11; i++) {
+                let hasValue = false;
+                document.getElementsByName("q" + i).forEach(btn => {
+                    if (btn.checked) {
+                    scores.push(btn.value);
+                    hasValue = true;
+                    }
+                })
+                if(!hasValue) unanswered.push(i);
+            }
+
+            if (scores.length === 10 && name !== "" && photo !== "") {
+                const newFriend = {
+                    name: name,
+                    photo: photo,
+                    scores: scores
+                }
+
+                fetch("api/friends", {
+                        method: "POST",
+                        body: JSON.stringify(newFriend),
+                        headers: {
+                            "Content-Type": "application/json"
+                        }
+                    }).then((res) => res.json())
+                    .then(function (bestFriend) {
+                            //use bestFriend response to create 
+                            console.log(bestFriend);
+
+                            document.getElementById("match-name").innerHTML = bestFriend.name;
+                            document.getElementById("match-img").setAttribute("src", bestFriend.photo);
+                            document.getElementById("results-modal").style = "display: block";
+                            document.getElementById("results-modal").setAttribute("class", "modal fade in");
+                        }
+
+                    )
+            }
+            if (scores.length !== 10){
+                
+                alert("Please select a response for question(s): " + unanswered.join(", "))
+            }
+            if (name === ""){
+                
+                alert("Please enter your name")
+            }
+            if (photo === ""){
+                
+                alert("Please enter a photo URL")
+            }
+        })
+    </script>
 
 
 </body>
