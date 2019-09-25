@@ -5,7 +5,9 @@ const friendsList = new FriendsList();
 module.exports = function (app) {
     app.get("/api/friends", function (req, res) {
         res.json(
-            JSON.stringify(friendsList)
+
+            friendsList.friends
+
         )
 
     })
@@ -14,13 +16,13 @@ module.exports = function (app) {
 
     app.post("/api/friends", function (req, res) {
         res.json(
-            JSON.stringify(
-                friendsList.addFriend(
-                    req.body.name,
-                    req.body.photo,
-                    req.body.scores
-                )
+
+            friendsList.addFriend(
+                req.body.name,
+                req.body.photo,
+                req.body.scores
             )
+
         )
     })
 }

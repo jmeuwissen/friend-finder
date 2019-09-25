@@ -10,7 +10,7 @@ const FriendList = function () {
         this.friends.forEach(function (friend, i) {
             let diff = 0;
             friend.scores.forEach(function (score, i) {
-                diff += Math.abs(score - newFriend.scores[i]);
+                diff += Math.abs(Math.floor(score) - Math.floor(newFriend.scores[i]));
             })
             if (i === 0 || diff < bestDiff) {
                 bestDiff = diff;
